@@ -27,9 +27,11 @@ Installation
 #### (1) [Ruby](http://www.ruby-lang.org/en/)
 #### (2) [Parslet](http://kschiess.github.io/parslet/)
 
+<!--
+
 ### Installation Guide
 
-<!--
 Usage
 ----------------------------------------------------------------
+### Get Started
 -->
