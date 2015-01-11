@@ -68,7 +68,6 @@ class Calculator
     @trans.unit_system
   end
 
-
   ################ repl ################
   def repl
     require 'readline'
@@ -78,7 +77,8 @@ class Calculator
       exit(0)
     }
     while true
-      str = Readline.readline("\e[0m[#{self.unit_system}]> ", true)
+      print("\e[0m")
+      str = Readline.readline("[#{self.unit_system}]> ", true)
 
       case str
       when ".q", ".e", ":q", ":e", "quit", "exit"
@@ -87,27 +87,25 @@ class Calculator
       when ".h",":h", "help"
         print self.show_help
       when ".u", ":u", "unit"
-        us = Readline.readline("\e[1;340munit system [MKSA, CGS]> ", true)
+        print("\e[1m")
+        us = Readline.readline("unit system [MKSA, CGS]> ", true)
         result = self.set_unit_system(us.upcase)
         if result[0]
           print "\e[1;32m"
-          print "unit system set to #{result[1]}\n"
-          print "\e[0m"
+          print "unit system set to #{result[1]}\e[0m\n"
         else
           print "\e[1;31m"
-          print result[1], "\n"
-          print "\e[0m"
+          print result[1], "\e[0m\n"
         end
+      when ""
       else
         result = self.parse_query(str)
         if result[0]
           print "\e[1;32m"
-          print result[1], "\n"
-          print "\e[0m"
+          print result[1], "\e[0m\n"
         else
           print "\e[1;31m"
-          print result[1], "\n"
-          print "\e[0m"
+          print result[1], "\e[0m\n"
         end
       end
     end

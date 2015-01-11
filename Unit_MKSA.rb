@@ -1,7 +1,5 @@
 require './Unit.rb'
 
-#### to do:
-#### alias :mass -> :kg etc...
 MKSA_standards = [:length,:mass,:time,:current,:temperature]
 MKSA_standards_name = {:length => :m,
                        :mass => :kg,

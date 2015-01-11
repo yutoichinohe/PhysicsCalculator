@@ -5,7 +5,6 @@ module Function
   include Math
 
   ################ macro ################
-  #### reference : http://o.inchiki.jp/obbr/121
   def self.function_from_Math(*args)
     args.each do |arg|
       define_singleton_method arg do |a|

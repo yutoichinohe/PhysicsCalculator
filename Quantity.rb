@@ -137,7 +137,6 @@ class Quantity < Numeric
     raise(DimensionError, "\"#{op}\" - index must be dimensionless")
   end
 
-
   ################ printing ################
   def to_f
     self.num.to_f

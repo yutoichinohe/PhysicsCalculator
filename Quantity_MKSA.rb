@@ -189,18 +189,18 @@ module CO
     Quantity.new(num: 6.62606957e-34, unit: UN.J*UN.sec)
   end
   def hbar
-    self.h/2/PI
+    self.h/2/self.pi
   end
 
   def epsilon0
-    Quantity.new(num: 8.854187817e-12, unit: UN.F/UN.m)
+    1.0/self.mu0/self.c**2
   end
   alias_method :epsilon_0, :epsilon0
   alias_method :ep0, :epsilon0
   alias_method :ep_0, :epsilon0
 
   def mu0
-    Quantity.new(num: 4e-7*PI, unit: UN.H/UN.m)
+    Quantity.new(num: 4e-7*self.pi, unit: UN.H/UN.m)
   end
   alias_method :mu_0, :mu0
 
@@ -222,10 +222,10 @@ module CO
   alias_method :kb, :k_b
 
   def e
-    Quantity.new(num: E)
+    Quantity.new(num: Math::E)
   end
   def pi
-    Quantity.new(num: PI)
+    Quantity.new(num: Math::PI)
   end
   alias_method :PI, :pi
   alias_method :Pi, :pi

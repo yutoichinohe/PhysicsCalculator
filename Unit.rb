@@ -88,6 +88,10 @@ class Unit
     self.power(other)
   end
 
+  def ^(other)
+    self.power(other)
+  end
+
   def print_unit
     str = ""
     sdim = self.dimension
