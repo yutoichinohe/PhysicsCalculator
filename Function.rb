@@ -27,6 +27,8 @@ module Function
   function_from_Math :exp
   #### strictly, arguments of log need not be dimensionless
   function_from_Math :log10, :log
+  alias_method :ln, :log
+  alias_method :log, :log10
   class << self
     alias :ln :log
     alias :log :log10

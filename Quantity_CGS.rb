@@ -197,7 +197,7 @@ module CO
 
   def q
     self.c*Quantity.new(num: 1.60217657e-20,
-                        unit: UN.g/UN.s**3/UN.gauss)
+                        unit: UN.g/UN.s/UN.gauss)
   end
 
   def m_e
