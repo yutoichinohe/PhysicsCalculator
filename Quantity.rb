@@ -95,6 +95,20 @@ class Quantity < Numeric
     end
   end
 
+  def ^(other)
+    snum, suni = self.num, self.unit
+    coe = self.coerce(other)[0]
+    onum, ouni = coe.num, coe.unit
+
+    if ouni.dimensionless?
+      num = snum**(onum*(ouni.const))
+      unit = suni.power(Rational(onum)*Rational(ouni.const))
+      self.class.new(num: num, unit: unit)
+    else
+      index_must_be_dimensionless("^")
+    end
+  end
+
   ################ compatibility ################
   def coerce(other)
     if other.kind_of?(Quantity)
@@ -177,6 +191,15 @@ module UN_
       raise(UnitNameError, "\"#{arg}\" - unit not defined")
     end
   end
+
+  def e
+    Math::E
+  end
+  def pi
+    Math::PI
+  end
+  alias_method :PI, :pi
+  alias_method :Pi, :pi
 
   def self.included(mod)
     mod.extend UN_

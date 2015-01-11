@@ -82,6 +82,7 @@ module UN
   def hour
     60.0*self.min
   end
+  alias_method :hr, :hour
   def day
     24.0*self.hour
   end
@@ -170,7 +171,6 @@ module UN
 end
 
 module CO
-  include Math
   include UN
   include CO_
   extend self
@@ -200,7 +200,7 @@ module CO
   alias_method :ep_0, :epsilon0
 
   def mu0
-    Quantity.new(num: 4e-7*self.pi, unit: UN.H/UN.m)
+    Quantity.new(num: 4.0e-7*self.pi, unit: UN.H/UN.m)
   end
   alias_method :mu_0, :mu0
 
@@ -220,14 +220,5 @@ module CO
   end
   alias_method :k, :k_b
   alias_method :kb, :k_b
-
-  def e
-    Quantity.new(num: Math::E)
-  end
-  def pi
-    Quantity.new(num: Math::PI)
-  end
-  alias_method :PI, :pi
-  alias_method :Pi, :pi
 
 end
