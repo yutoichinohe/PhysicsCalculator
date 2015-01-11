@@ -115,5 +115,17 @@ end
 
 if $0 == __FILE__
   calc = Calculator.new
-  calc.repl
+  if ARGV.size != 0
+    arg = ARGV.join(" ")
+    result = calc.parse_query(arg)
+    if result[0]
+      print "\e[1;32m"
+      print result[1], "\e[0m\n"
+    else
+      print "\e[1;31m"
+      print result[1], "\e[0m\n"
+    end
+  else
+    calc.repl
+  end
 end

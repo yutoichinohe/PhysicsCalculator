@@ -5,7 +5,7 @@ module UN
   include UN_
   extend self
 
-  ################ length
+  #### length
   def cm
     Quantity.new(num: 1, unit: Unit_CGS.new(const: 1, length: 1))
   end
@@ -44,7 +44,7 @@ module UN
     9460730472580800.0*self.m
   end
 
-  ################ mass
+  #### mass
   def g
     Quantity.new(num: 1, unit: Unit_CGS.new(const: 1, mass: 1))
   end
@@ -60,7 +60,7 @@ module UN
   end
   alias_method :M_sun, :Msun
 
-  ################ time
+  #### time
   def s
     Quantity.new(num: 1, unit: Unit_CGS.new(const: 1, time: 1))
   end
@@ -101,7 +101,7 @@ module UN
     1/self.s
   end
 
-  ################ energy
+  #### energy
   def erg
     Quantity.new(num: 1, unit: Unit_CGS.new(const: 1, mass: 1, length: 2, time: -2))
   end
@@ -143,7 +143,7 @@ module UN
     1e15*self.eV
   end
 
-  ################ EM
+  #### EM
   def esu
     self.dyn**Rational(1,2)*self.cm
   end
@@ -155,7 +155,7 @@ module UN
   alias_method :Gauss, :gauss
 
 
-  ################ temperature
+  #### temperature
   def K
     Quantity.new(num: 1, unit: Unit_CGS.new(const: 1, temperature: 1))
   end

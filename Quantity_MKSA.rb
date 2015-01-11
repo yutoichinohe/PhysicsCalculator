@@ -5,7 +5,7 @@ module UN
   include UN_
   extend self
 
-  ################ length
+  #### length
   def m
     Quantity.new(num: 1, unit: Unit_MKSA.new(const: 1, length: 1))
   end
@@ -44,7 +44,7 @@ module UN
     9460730472580800.0*self.m
   end
 
-  ################ mass
+  #### mass
   def kg
     Quantity.new(num: 1, unit: Unit_MKSA.new(const: 1, mass: 1))
   end
@@ -60,7 +60,7 @@ module UN
   end
   alias_method :M_sun, :Msun
 
-  ################ time
+  #### time
   def s
     Quantity.new(num: 1, unit: Unit_MKSA.new(const: 1, time: 1))
   end
@@ -101,7 +101,7 @@ module UN
     self.s**-1
   end
 
-  ################ energy
+  #### energy
   def N
     Quantity.new(num: 1, unit: Unit_MKSA.new(const: 1, mass: 1, length: 1, time: -2))
   end
@@ -139,7 +139,7 @@ module UN
     1e15*self.eV
   end
 
-  ################ EM
+  #### EM
   def A
     Quantity.new(num: 1, unit: Unit_MKSA.new(const: 1, current: 1))
   end
@@ -164,7 +164,7 @@ module UN
   end
   alias_method :Gauss, :gauss
 
-  ################ temperature
+  #### temperature
   def K
     Quantity.new(num: 1, unit: Unit_MKSA.new(const: 1, temperature: 1))
   end
