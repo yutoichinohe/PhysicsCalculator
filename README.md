@@ -9,6 +9,23 @@ unit-conscious scientific calculator
 Introduction
 ----------------------------------------------------------------
 
+Physics Calculator is a simple command-line scientific calculator which is useful especially for the researchers/students engaged in natural science/engineering etc...
+
+## features
+- unit-conscious calculation
+    [MKSA]> 1[km]/1[sec]
+    1000.0 m s-1
+- mathematical funcions
+    [MKSA]> cos(pi)
+    -1.0
+- use of multiple unit systems
+    [MKSA]> q
+    1.60217657e-19 s A // elementary charge in MKSA
+    [MKSA]> :u
+    unit system [MKSA, CGS]> cgs
+    [CGS]> q
+    4.80320452070309e-10 cm3/2 g1/2 s-1 // elementary charge in CGS
+
 ### Contact
 
 - Yuto Ichinohe
