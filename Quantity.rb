@@ -185,11 +185,13 @@ module UN_
   end
 
   def self.def_(*sym, description: "", &block)
+    names = []
     sym.each do |s|
       define_method(s, block)
-      str = description + " : " + block.call.to_s
-      @@uns[s] = str
+      names.push(s)
     end
+      str = description + " : " + block.call.to_s
+      @@uns[names] = str
   end
 
 end
@@ -210,11 +212,13 @@ module CO_
   end
 
   def self.def_(*sym, description: "", &block)
+    names = []
     sym.each do |s|
       define_method(s, block)
-      str = description + " : " + block.call.to_s
-      @@cos[s] = str
+      names.push(s)
     end
+      str = description + " : " + block.call.to_s
+      @@cos[names] = str
   end
 
   def_(:e,

@@ -18,8 +18,14 @@ class Calculator
       "        \e[1mexit the program\n" <<
       "    \e[1m.h, :h, help\n" <<
       "        \e[1mshow this help\n" <<
-      "    \e[1m.u, :u, unit\n" <<
+      "    \e[1m.us, :us, unitsystem\n" <<
       "        \e[1mchange unit system\n" <<
+      "    \e[1m.c, :c, const\n" <<
+      "        \e[1mprint available constants\n" <<
+      "    \e[1m.u, :u, unit\n" <<
+      "        \e[1mprint available units\n" <<
+      "    \e[1m.f, :f, func\n" <<
+      "        \e[1mprint available functions\n" <<
       ""
     str
   end
@@ -68,12 +74,34 @@ class Calculator
     @trans.unit_system
   end
 
+  def show_const
+    str = "\e[1m\e[4mAvailable constants\e[0m\e[1m\n"
+    CO.constant_description.each do |key,val|
+      str << "%30s | %s\n" % [key.join(" "),val]
+    end
+    str
+  end
+  def show_unit
+    str = "\e[1m\e[4mAvailable units\e[0m\e[1m\n"
+    UN.unit_description.each do |key,val|
+      str << "%16s | %s\n" % [key.join(" "),val]
+    end
+    str
+  end
+  def show_func
+    str = "\e[1m\e[4mAvailable functions\e[0m\e[1m\n"
+    Function.function_description.each do |key,val|
+      str << "%10s | %s\n" % [key.join(" "),val]
+    end
+    str
+  end
+
   ################ repl ################
   def repl
     require 'readline'
     Signal.trap(:INT) {
       puts
-      print "bye\n"
+      print "Bye\n"
       exit(0)
     }
     while true
@@ -82,11 +110,11 @@ class Calculator
 
       case str
       when ".q", ".e", ":q", ":e", "quit", "exit"
-        print "bye\n"
+        print "Bye\n"
         break
-      when ".h",":h", "help"
+      when ".h", ":h", "help"
         print self.show_help
-      when ".u", ":u", "unit"
+      when ".us", ":us", "unitsystem"
         print("\e[1m")
         us = Readline.readline("unit system [MKSA, CGS]> ", true)
         result = self.set_unit_system(us.upcase)
@@ -97,6 +125,12 @@ class Calculator
           print "\e[1;31m"
           print result[1], "\e[0m\n"
         end
+      when ".c", ":c", "const"
+        print self.show_const
+      when ".u", ":u", "unit"
+        print self.show_unit
+      when ".f", ":f", "func"
+        print self.show_func
       when ""
       else
         result = self.parse_query(str)

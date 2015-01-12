@@ -24,7 +24,7 @@ Physics Calculator is a simple command-line scientific calculator which is usefu
 #### Use of multiple unit systems
     [MKSA]> q
     1.60217657e-19 s A // elementary charge in MKSA
-    [MKSA]> :u
+    [MKSA]> :us
     unit system [MKSA, CGS]> cgs
     [CGS]> q
     4.80320452070309e-10 cm3/2 g1/2 s-1 // elementary charge in CGS
@@ -68,7 +68,7 @@ Usage
     0.5131032184972966
     [MKSA]> q^2/4/pi/epsilon0/hbar/c // fine structure constant in MKSA
     0.0072973526210695135
-    [MKSA]> :u // different unit system
+    [MKSA]> :us // different unit system
     unit system [MKSA, CGS]> cgs
     [CGS]> q^2/hbar/c
     0.007297352621069511 // fine structure constant in CGS
@@ -78,3 +78,11 @@ Usage
 #### From command-line
     $ ./Calculator.rb 1[eV] =? J
     1.60217657e-19 [J]
+
+#### Commands
+    .q, .e, :q, :e, quit, exit, Ctrl-c -- quit
+    .h, :h, help -- show help
+    .us, :us, unitsystem -- change unit system
+    .c, :c, const -- print available constants
+    .u, :u, unit -- print available units
+    .f, :f, func -- print available functions
