@@ -48,9 +48,9 @@ Installation
 #### (2) [Parslet](http://kschiess.github.io/parslet/)
 
 ### Installation Guide
-#### Install Parslet
+#### (1) Install Parslet
     $ gem install parslet
-#### Obtain the source
+#### (2) Obtain the source
     $ git clone https://github.com/yutoichinohe/PhysicsCalculator.git
 
 Usage
