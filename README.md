@@ -1,7 +1,7 @@
 Physics Calculator
 ================================================================
 
-Afunit-conscious scientific calculator.
+a unit-conscious scientific calculator
 
 - Version: 0.1.0
 - Author: Yuto Ichinohe
