@@ -1,7 +1,7 @@
 Physics Calculator
 ================================================================
 
-a unit-conscious scientific calculator
+a command-line unit-conscious scientific calculator
 
 - Version: 0.1.0
 - Author: Yuto Ichinohe
