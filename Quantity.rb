@@ -170,6 +170,7 @@ class Quantity < Numeric
 end
 
 module UN_
+
   def method_if(arg)
     if self.method_defined?(arg)
       self.method(arg)
@@ -178,12 +179,23 @@ module UN_
     end
   end
 
-  def self.included(mod)
-    mod.extend UN_
+  @@uns = {}
+  def unit_description
+    @@uns
   end
+
+  def self.def_(*sym, description: "", &block)
+    sym.each do |s|
+      define_method(s, block)
+      str = description + " : " + block.call.to_s
+      @@uns[s] = str
+    end
+  end
+
 end
 
 module CO_
+
   def method_if(arg)
     if self.method_defined?(arg)
       self.method(arg)
@@ -192,19 +204,24 @@ module CO_
     end
   end
 
-  def self.included(mod)
-    mod.extend CO_
+  @@cos = {}
+  def constant_description
+    @@cos
   end
 
-  def e
-    Math::E
+  def self.def_(*sym, description: "", &block)
+    sym.each do |s|
+      define_method(s, block)
+      str = description + " : " + block.call.to_s
+      @@cos[s] = str
+    end
   end
-  def pi
-    Math::PI
-  end
-  def twopi
-    Math::PI*2.0
-  end
-  alias_method :PI, :pi
-  alias_method :Pi, :pi
+
+  def_(:e,
+       description: "Napier's constant") { Math::E }
+  def_(:pi, :PI, :Pi,
+       description: "Pi") { Math::PI }
+  def_(:twopi,
+       description: "2*Pi") { Math::PI*2.0 }
+
 end

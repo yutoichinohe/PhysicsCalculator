@@ -6,167 +6,132 @@ module UN
   extend self
 
   #### length
-  def m
-    Quantity.new(num: 1, unit: Unit_MKSA.new(const: 1, length: 1))
+  UN_.def_(:m,
+           description: "meter") do
+    Quantity.new(num: 1,
+                 unit: Unit_MKSA.new(const: 1, length: 1))
   end
-  def cm
-    1e-2*self.m
-  end
-  def mm
-    1e-3*self.m
-  end
-  def um
-    1e-6*self.m
-  end
-  def nm
-    1e-9*self.m
-  end
-  def km
-    1000*self.m
-  end
+  UN_.def_(:cm,
+           description: "centimeter") { 1e-2*self.m }
+  UN_.def_(:mm,
+           description: "millimeter") { 1e-3*self.m }
+  UN_.def_(:um,
+           description: "micrometer") { 1e-6*self.m }
+  UN_.def_(:nm,
+           description: "nanometer") { 1e-9*self.m }
+  UN_.def_(:km,
+           description: "kilometer") { 1000*self.m }
 
-  def au
-    149597871.0*self.km
-  end
-  alias_method :AU, :au
+  UN_.def_(:au, :AU,
+           description: "astronomical unit") { 149597871.0*self.km }
+  UN_.def_(:pc,
+           description: "parsec") { 3.08567758e16*self.m }
+  UN_.def_(:kpc,
+           description: "kiloparsec") { 1e3*self.pc }
+  UN_.def_(:Mpc,
+           description: "megaparsec") { 1e6*self.pc }
 
-  def pc
-    3.08567758e16*self.m
-  end
-  def kpc
-    1e3*self.pc
-  end
-  def Mpc
-    1e6*self.pc
-  end
-
-  def lyr
-    9460730472580800.0*self.m
-  end
+  UN_.def_(:lyr,
+           description: "light year") { 9460730472580800.0*self.m }
 
   #### mass
-  def kg
-    Quantity.new(num: 1, unit: Unit_MKSA.new(const: 1, mass: 1))
+  UN_.def_(:kg,
+           description: "kilogram") do
+    Quantity.new(num: 1,
+                 unit: Unit_MKSA.new(const: 1, mass: 1))
   end
-  def g
-    1e-3*self.kg
-  end
-  def t
-    1e3*self.kg
-  end
+  UN_.def_(:g,
+           description: "gram") { 1e-3*self.kg }
+  UN_.def_(:t,
+           description: "ton") { 1e3*self.kg }
 
-  def Msun
-    1.9891e30*self.kg
-  end
-  alias_method :M_sun, :Msun
+  UN_.def_(:Msun, :M_sun,
+           description: "solar mass") { 1.9891e30*self.kg }
 
   #### time
-  def s
-    Quantity.new(num: 1, unit: Unit_MKSA.new(const: 1, time: 1))
-  end
-  alias_method :sec, :s
-
-  def ms
-    1e-3*self.s
-  end
-  def us
-    1e-6*self.s
-  end
-  def ns
-    1e-9*self.s
+  UN_.def_(:s, :sec,
+           description: "second") do
+    Quantity.new(num: 1,
+                 unit: Unit_MKSA.new(const: 1, time: 1))
   end
 
-  def min
-    60.0*self.sec
-  end
-  def hour
-    60.0*self.min
-  end
-  alias_method :hr, :hour
-  def day
-    24.0*self.hour
-  end
-  def yr
-    31556926.0*self.sec
-  end
-  alias_method :year, :yr
-  def Myr
-    1e6*self.yr
-  end
-  def Gyr
-    1e9*self.yr
-  end
+  UN_.def_(:ms,
+           description: "millisecond") { 1e-3*self.s }
+  UN_.def_(:us,
+           description: "microsecond") { 1e-6*self.s }
+  UN_.def_(:ns,
+           description: "nanosecond") { 1e-9*self.s }
 
-  def Hz
-    self.s**-1
-  end
+  UN_.def_(:min,
+           description: "minute") { 60.0*self.sec }
+  UN_.def_(:hour, :hr,
+           description: "hour") { 60.0*self.min }
+  UN_.def_(:day,
+           description: "day") { 24.0*self.hour }
+
+  UN_.def_(:yr, :year,
+           description: "year") { 31556926.0*self.sec }
+  UN_.def_(:Myr,
+           description: "megayear") { 1e6*self.yr }
+  UN_.def_(:Gyr,
+           description: "gigayear") { 1e9*self.yr }
+
+  UN_.def_(:Hz,
+           description: "hertz") { self.s**-1 }
 
   #### energy
-  def N
-    Quantity.new(num: 1, unit: Unit_MKSA.new(const: 1, mass: 1, length: 1, time: -2))
+  UN_.def_(:N,
+           description: "newton") do
+    Quantity.new(num: 1,
+                 unit: Unit_MKSA.new(const: 1, mass: 1, length: 1, time: -2))
   end
 
-  def Pa
-    self.N/self.m**2
-  end
-  def W
-    self.N/self.s
-  end
-  def J
-    self.N*self.m
-  end
-  alias_method :Joule, :J
-  def erg
-    1e-7*self.J
-  end
+  UN_.def_(:Pa,
+           description: "pascal") { self.N/self.m**2 }
+  UN_.def_(:W,
+           description: "watt") { self.N/self.s }
+  UN_.def_(:J, :Joule, :joule,
+           description: "joule") { self.N*self.m }
+  UN_.def_(:erg,
+           description: "erg") { 1e-7*self.J }
 
-  def eV
-    1.60217657e-19*self.J
-  end
-  def keV
-    1e3*self.eV
-  end
-  def MeV
-    1e6*self.eV
-  end
-  def GeV
-    1e9*self.eV
-  end
-  def TeV
-    1e12*self.eV
-  end
-  def PeV
-    1e15*self.eV
-  end
+  UN_.def_(:eV,
+           description: "electron volt") { 1.60217657e-19*self.J }
+  UN_.def_(:keV,
+           description: "kilo electron volt") { 1e3*self.eV }
+  UN_.def_(:MeV,
+           description: "mega electron volt") { 1e6*self.eV }
+  UN_.def_(:GeV,
+           description: "giga electron volt") { 1e9*self.eV }
+  UN_.def_(:TeV,
+           description: "tera electron volt") { 1e12*self.eV }
+  UN_.def_(:PeV,
+           description: "peta electron volt") { 1e15*self.eV }
 
   #### EM
-  def A
-    Quantity.new(num: 1, unit: Unit_MKSA.new(const: 1, current: 1))
+  UN_.def_(:A,
+           description: "ampere") do
+    Quantity.new(num: 1,
+                 unit: Unit_MKSA.new(const: 1, current: 1))
   end
-  def C
-    self.A*self.s
-  end
-  def V
-    self.J/self.C
-  end
-  def F
-    self.C/self.V
-  end
-  def H
-    self.V/self.A*self.sec
-  end
-  def T
-    self.kg/self.A/self.sec**2
-  end
-  alias_method :tesla, :T
-  def gauss
-    1e-4*self.T
-  end
-  alias_method :Gauss, :gauss
+  UN_.def_(:C,
+           description: "coulomb") { self.A*self.s }
+  UN_.def_(:V,
+           description: "volt") { self.J/self.C }
+  UN_.def_(:F,
+           description: "farad") { self.C/self.V }
+  UN_.def_(:H,
+           description: "henry") { self.V/self.A*self.sec }
+  UN_.def_(:T, :Tesla, :tesla,
+           description: "tesla") { self.kg/self.A/self.sec**2 }
+  UN_.def_(:gauss, :Gauss,
+           description: "gauss") { 1e-4*self.T }
 
   #### temperature
-  def K
-    Quantity.new(num: 1, unit: Unit_MKSA.new(const: 1, temperature: 1))
+  UN_.def_(:K,
+           description: "kelvin") do
+    Quantity.new(num: 1,
+                 unit: Unit_MKSA.new(const: 1, temperature: 1))
   end
 end
 
@@ -175,50 +140,55 @@ module CO
   include CO_
   extend self
 
-  def c
-    Quantity.new(num: 299792458.0, unit: UN.m/UN.s)
-  end
-  alias_method :c0, :c
-  alias_method :c_0, :c
-
-  def G
-    Quantity.new(num: 6.67384e-11, unit: (UN.m)**3/UN.kg/UN.sec**2)
+  CO_.def_(:c, :c0, :c_0,
+           description: "speed of light") do
+    Quantity.new(num: 299792458.0,
+                 unit: UN.m/UN.s)
   end
 
-  def h
-    Quantity.new(num: 6.62606957e-34, unit: UN.J*UN.sec)
-  end
-  def hbar
-    self.h/self.twopi
-  end
-
-  def epsilon0
-    1.0/self.mu0/self.c**2
-  end
-  alias_method :epsilon_0, :epsilon0
-  alias_method :ep0, :epsilon0
-  alias_method :ep_0, :epsilon0
-
-  def mu0
-    Quantity.new(num: 4.0e-7*self.pi, unit: UN.H/UN.m)
-  end
-  alias_method :mu_0, :mu0
-
-  def q
-    Quantity.new(num: 1.60217657e-19, unit: UN.C)
+  CO_.def_(:G,
+           description: "gravitational constant") do
+    Quantity.new(num: 6.67384e-11,
+                 unit: (UN.m)**3/UN.kg/UN.sec**2)
   end
 
-  def m_e
-    Quantity.new(num: 9.10938291e-31, unit: UN.kg)
+  CO_.def_(:h,
+           description: "Planck's constant") do
+    Quantity.new(num: 6.62606957e-34,
+                 unit: UN.J*UN.sec)
   end
-  def m_p
-    Quantity.new(num: 1.672621777e-27, unit: UN.kg)
+  CO_.def_(:hbar,
+           description: "Planck's constant over twopi") { self.h/self.twopi }
+
+  CO_.def_(:mu0, :mu_0,
+           description: "permeability of vacuum") do
+    Quantity.new(num: 4.0e-7*self.pi,
+                 unit: UN.H/UN.m)
+  end
+  CO_.def_(:epsilon0, :epsilon_0, :ep0, :ep_0,
+           description: "permittivity of vacuum") { 1.0/self.mu0/self.c**2 }
+
+  CO_.def_(:q,
+           description: "elementary charge") do
+    Quantity.new(num: 1.60217657e-19,
+                 unit: UN.C)
   end
 
-  def k_b
-    Quantity.new(num: 1.3806488e-23, unit: UN.J/UN.K)
+  CO_.def_(:m_e,
+           description: "electron mass") do
+    Quantity.new(num: 9.10938291e-31,
+                 unit: UN.kg)
   end
-  alias_method :k, :k_b
-  alias_method :kb, :k_b
+  CO_.def_(:m_p,
+           description: "proton mass") do
+    Quantity.new(num: 1.672621777e-27,
+                 unit: UN.kg)
+  end
+
+  CO_.def_(:k_b, :k, :kb,
+           description: "Boltzmann constant") do
+    Quantity.new(num: 1.3806488e-23,
+                 unit: UN.J/UN.K)
+  end
 
 end
