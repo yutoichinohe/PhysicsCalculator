@@ -88,17 +88,17 @@ Usage
     .f, :f, func -- print available functions
 
 #### Syntax
-- available operators
-    addition (+), subtraction (-), multiplication (*), division (/), power (**, ^)
-- the scientific notation of numbers is allowed
-    ex.) -2e3, -2.0e3, -2E3 => -2000.0
-- use [] to describe units
-    ex.) 20[km**2/sec], 20[km^2 sec-1], 20[km 2 sec -1] => 20000000.0 m2 s-1
-- use =? to convert the result into a specific unit
-    ex.) 20[m]=?km, 20[m] =? [km] => 0.02 [km]
-- constants are inputted directly
-    ex.) c => 299792458.0 m s-1, q => 1.60217657e-19 s A
-- units can also be used as constants
-    ex.) km => 1000.0 m
-- functions are inputted with ()
-    ex.) sin(2.0), sin(1+1), sin(2[m]/1[m])  => 0.9092974268256817
+- available operators  
+    `addition (+), subtraction (-), multiplication (*), division (/), power (**, ^)`
+- the scientific notation of numbers is allowed  
+    `ex.) -2e3, -2.0e3, -2E3 => -2000.0`
+- use [] to describe units  
+    `ex.) 20[km**2/sec], 20[km^2 sec-1], 20[km 2 sec -1] => 20000000.0 m2 s-1`
+- use =? to convert the result into a specific unit  
+    `ex.) 20[m]=?km, 20[m] =? [km] => 0.02 [km]`
+- constants are inputted directly  
+    `ex.) c => 299792458.0 m s-1, q => 1.60217657e-19 s A`
+- units can also be used as constants  
+    `ex.) km => 1000.0 m`
+- functions are inputted with ()  
+    `ex.) sin(2.0), sin(1+1), sin(2[m]/1[m])  => 0.9092974268256817`
