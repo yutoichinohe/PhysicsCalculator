@@ -1,7 +1,7 @@
 Physics Calculator
 ================================================================
 
-unit-conscious scientific calculator
+Afunit-conscious scientific calculator.
 
 - Version: 0.1.0
 - Author: Yuto Ichinohe
@@ -11,14 +11,17 @@ Introduction
 
 Physics Calculator is a simple command-line scientific calculator which is useful especially for the researchers/students engaged in natural science/engineering etc...
 
-## features
-#### unit-conscious calculation
+## Features
+#### Unit-conscious calculation
     [MKSA]> 1[km]/1[sec]
     1000.0 m s-1
-#### mathematical funcions
+#### Scientific constants
+    [MKSA]> G
+    6.67384e-11 m3 kg-1 s-2
+#### Mathematical funcions
     [MKSA]> cos(pi)
     -1.0
-#### use of multiple unit systems
+#### Use of multiple unit systems
     [MKSA]> q
     1.60217657e-19 s A // elementary charge in MKSA
     [MKSA]> :u
@@ -71,6 +74,6 @@ Usage
     [CGS]> :q
     bye
 
-#### From Command-line
+#### From command-line
     $ ./Calculator.rb 1[eV] =? J
     1.60217657e-19 [J]
