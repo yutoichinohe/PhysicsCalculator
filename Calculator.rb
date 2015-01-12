@@ -13,39 +13,39 @@ class Calculator
   def show_help
     str =
       "\e[1m################ HELP ################\n" <<
-      "\e[4mCOMMANDS\e[0m\n" <<
-      "    \e[1m.q, .e, :q, :e, quit, exit, Ctrl-c\n" <<
-      "        \e[1mexit the program\n" <<
-      "    \e[1m.h, :h, help\n" <<
-      "        \e[1mshow this help\n" <<
-      "    \e[1m.us, :us, unitsystem\n" <<
-      "        \e[1mchange unit system\n" <<
-      "    \e[1m.c, :c, const\n" <<
-      "        \e[1mprint available constants\n" <<
-      "    \e[1m.u, :u, unit\n" <<
-      "        \e[1mprint available units\n" <<
-      "    \e[1m.f, :f, func\n" <<
-      "        \e[1mprint available functions\n" <<
-      "\e[4mSYNTAX\e[0m\n" <<
-      "    \e[1m- available operators\n" <<
-      "        \e[1maddition (+), subtraction (-)\n" <<
-      "        \e[1mmultiplication (*), division (/), power (**, ^)\n" <<
-      "    \e[1m- the scientific notation of numbers is allowed\n" <<
-      "        \e[1mex.) -2e3, -2.0e3, -2E3\n" <<
-      "        \e[1m=> -2000.0\n" <<
-      "    \e[1m- use [] to describe units\n" <<
-      "        \e[1mex.) 20[km**2/sec], 20[km^2 sec-1], 20[km 2 sec -1]\n" <<
-      "        \e[1m=> 20000000.0 m2 s-1\n" <<
-      "    \e[1m- use =? to convert the result into a specific unit\n" <<
-      "        \e[1mex.) 20[m]=?km, 20[m] =? [km]\n" <<
-      "        \e[1m=> 0.02 [km]\n" <<
-      "    \e[1m- constants are inputted directly\n" <<
-      "        \e[1mex.) c => 299792458.0 m s-1, q => 1.60217657e-19 s A\n" <<
-      "    \e[1m- units can also be used as constants\n" <<
-      "        \e[1mex.) km => 1000.0 m\n" <<
-      "    \e[1m- functions are inputted with ()\n" <<
-      "        \e[1mex.) sin(2.0), sin(1+1), sin(2[m]/1[m])\n" <<
-      "        \e[1m=> 0.9092974268256817\n" <<
+      "\e[4mCOMMANDS\e[0m\e[1m\n" <<
+      "    .q, .e, :q, :e, quit, exit, Ctrl-c\n" <<
+      "        exit the program\n" <<
+      "    .h, :h, help\n" <<
+      "        show this help\n" <<
+      "    .us, :us, unitsystem\n" <<
+      "        change unit system\n" <<
+      "    .c, :c, const\n" <<
+      "        print available constants\n" <<
+      "    .u, :u, unit\n" <<
+      "        print available units\n" <<
+      "    .f, :f, func\n" <<
+      "        print available functions\n" <<
+      "\e[4mSYNTAX\e[0m\e[1m\n" <<
+      "    - available operators\n" <<
+      "        addition (+), subtraction (-)\n" <<
+      "        multiplication (*), division (/), power (**, ^)\n" <<
+      "    - the scientific notation of numbers is allowed\n" <<
+      "        ex.) -2e3, -2.0e3, -2E3\n" <<
+      "        => -2000.0\n" <<
+      "    - use [] to describe units\n" <<
+      "        ex.) 20[km**2/sec], 20[km^2 sec-1], 20[km 2 sec -1]\n" <<
+      "        => 20000000.0 m2 s-1\n" <<
+      "    - use =? to convert the result into a specific unit\n" <<
+      "        ex.) 20[m]=?km, 20[m] =? [km]\n" <<
+      "        => 0.02 [km]\n" <<
+      "    - constants are inputted directly\n" <<
+      "        ex.) c => 299792458.0 m s-1, q => 1.60217657e-19 s A\n" <<
+      "    - units can also be used as constants\n" <<
+      "        ex.) km => 1000.0 m\n" <<
+      "    - functions are inputted with ()\n" <<
+      "        ex.) sin(2.0), sin(1+1), sin(2[m]/1[m])\n" <<
+      "        => 0.9092974268256817\n" <<
       ""
     str
   end
@@ -126,7 +126,7 @@ class Calculator
     }
     while true
       print("\e[0m")
-      str = Readline.readline("[#{self.unit_system}]> ", true)
+      str = Readline.readline("[#{self.unit_system}]> ", true).strip
 
       case str
       when ".q", ".e", ":q", ":e", "quit", "exit"
