@@ -47,10 +47,11 @@ Installation
 #### (1) [Ruby](http://www.ruby-lang.org/en/)
 #### (2) [Parslet](http://kschiess.github.io/parslet/)
 
-<!--
-
 ### Installation Guide
--->
+#### Install Parslet
+    $ gem install parslet
+#### Obtain the source
+    $ git clone https://github.com/yutoichinohe/PhysicsCalculator.git
 
 Usage
 ----------------------------------------------------------------
