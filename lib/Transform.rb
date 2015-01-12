@@ -1,20 +1,20 @@
-require './Error.rb'
-require './Function.rb'
+require_relative './Error.rb'
+require_relative './Function.rb'
 
 class Transform < Parslet::Transform
   attr_reader :unit_system
 
   def initialize
     super
-    load './Quantity_MKSA.rb'
+    load "#{File.dirname(__FILE__)}/Quantity_MKSA.rb"
     @unit_system = :MKSA
   end
   def set_unit_system(str)
     if str == "MKSA" or str == "M"
-      load './Quantity_MKSA.rb'
+      load "#{File.dirname(__FILE__)}/Quantity_MKSA.rb"
       @unit_system = :MKSA
     elsif str == "CGS" or str == "C"
-      load './Quantity_CGS.rb'
+      load "#{File.dirname(__FILE__)}/Quantity_CGS.rb"
       @unit_system = :CGS
     else
       raise(UnitSystemError, "\"#{str}\" - invalid unit system")

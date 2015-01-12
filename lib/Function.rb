@@ -1,5 +1,5 @@
-require './Quantity.rb'
-require './Error.rb'
+require_relative './Quantity.rb'
+require_relative './Error.rb'
 
 module Function
 

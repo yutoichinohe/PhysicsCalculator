@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-require './Parser.rb'
-require './Transform.rb'
+require_relative './lib/Parser.rb'
+require_relative './lib/Transform.rb'
 
 class Calculator
   def initialize

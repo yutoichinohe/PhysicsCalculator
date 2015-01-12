@@ -1,4 +1,4 @@
-require './Unit.rb'
+require_relative './Unit.rb'
 
 MKSA_standards = [:length,:mass,:time,:current,:temperature]
 MKSA_standards_name = {:length => :m,

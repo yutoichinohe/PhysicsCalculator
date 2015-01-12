@@ -1,26 +1,26 @@
-require './Unit_MKSA.rb'
-require './Quantity.rb'
+require_relative './Unit_CGS.rb'
+require_relative './Quantity.rb'
 
 module UN
   include UN_
   extend self
 
   #### length
-  UN_.def_(:m,
-           description: "meter") do
-    Quantity.new(num: 1,
-                 unit: Unit_MKSA.new(const: 1, length: 1))
-  end
   UN_.def_(:cm,
-           description: "centimeter") { 1e-2*self.m }
+           description: "centimeter") do
+    Quantity.new(num: 1,
+                 unit: Unit_CGS.new(const: 1, length: 1))
+  end
+  UN_.def_(:m,
+           description: "meter") { 1e2*self.cm }
   UN_.def_(:mm,
-           description: "millimeter") { 1e-3*self.m }
+           description: "millimeter") { 1e-1*self.cm }
   UN_.def_(:um,
-           description: "micrometer") { 1e-6*self.m }
+           description: "micrometer") { 1e-4*self.cm }
   UN_.def_(:nm,
-           description: "nanometer") { 1e-9*self.m }
+           description: "nanometer") { 1e-7*self.cm }
   UN_.def_(:km,
-           description: "kilometer") { 1000*self.m }
+           description: "kilometer") { 1e5*self.cm }
 
   UN_.def_(:au, :AU,
            description: "astronomical unit") { 149597871.0*self.km }
@@ -35,13 +35,13 @@ module UN
            description: "light year") { 9460730472580800.0*self.m }
 
   #### mass
-  UN_.def_(:kg,
-           description: "kilogram") do
-    Quantity.new(num: 1,
-                 unit: Unit_MKSA.new(const: 1, mass: 1))
-  end
   UN_.def_(:g,
-           description: "gram") { 1e-3*self.kg }
+           description: "gram") do
+    Quantity.new(num: 1,
+                 unit: Unit_CGS.new(const: 1, mass: 1))
+  end
+  UN_.def_(:kg,
+           description: "kilogram") { 1e3*self.g }
   UN_.def_(:t,
            description: "ton") { 1e3*self.kg }
 
@@ -52,7 +52,7 @@ module UN
   UN_.def_(:s, :sec,
            description: "second") do
     Quantity.new(num: 1,
-                 unit: Unit_MKSA.new(const: 1, time: 1))
+                 unit: Unit_CGS.new(const: 1, time: 1))
   end
 
   UN_.def_(:ms,
@@ -77,23 +77,26 @@ module UN
            description: "gigayear") { 1e9*self.yr }
 
   UN_.def_(:Hz,
-           description: "hertz") { self.s**-1 }
+           description: "hertz") { 1/self.s }
 
   #### energy
-  UN_.def_(:N,
-           description: "newton") do
+  UN_.def_(:erg,
+           description: "erg") do
     Quantity.new(num: 1,
-                 unit: Unit_MKSA.new(const: 1, mass: 1, length: 1, time: -2))
+                 unit: Unit_CGS.new(const: 1, mass: 1, length: 2, time: -2))
   end
 
+  UN_.def_(:dyn,
+           description: "dyne") { self.g*self.cm/self.s**2 }
+
+  UN_.def_(:J, :Joule, :joule,
+           description: "joule") { 1e7*self.erg }
+  UN_.def_(:N,
+           description: "newton") { self.J/self.m }
   UN_.def_(:Pa,
            description: "pascal") { self.N/self.m**2 }
   UN_.def_(:W,
            description: "watt") { self.N/self.s }
-  UN_.def_(:J, :Joule, :joule,
-           description: "joule") { self.N*self.m }
-  UN_.def_(:erg,
-           description: "erg") { 1e-7*self.J }
 
   UN_.def_(:eV,
            description: "electron volt") { 1.60217657e-19*self.J }
@@ -109,29 +112,18 @@ module UN
            description: "peta electron volt") { 1e15*self.eV }
 
   #### EM
-  UN_.def_(:A,
-           description: "ampere") do
-    Quantity.new(num: 1,
-                 unit: Unit_MKSA.new(const: 1, current: 1))
-  end
-  UN_.def_(:C,
-           description: "coulomb") { self.A*self.s }
-  UN_.def_(:V,
-           description: "volt") { self.J/self.C }
-  UN_.def_(:F,
-           description: "farad") { self.C/self.V }
-  UN_.def_(:H,
-           description: "henry") { self.V/self.A*self.sec }
-  UN_.def_(:T, :Tesla, :tesla,
-           description: "tesla") { self.kg/self.A/self.sec**2 }
+  UN_.def_(:esu, :statC,
+           description: "stat coulomb") { self.dyn**Rational(1,2)*self.cm }
+
   UN_.def_(:gauss, :Gauss,
-           description: "gauss") { 1e-4*self.T }
+           description: "gauss") { self.dyn**Rational(1,2)/self.cm }
+
 
   #### temperature
   UN_.def_(:K,
            description: "kelvin") do
     Quantity.new(num: 1,
-                 unit: Unit_MKSA.new(const: 1, temperature: 1))
+                 unit: Unit_CGS.new(const: 1, temperature: 1))
   end
 end
 
@@ -161,17 +153,14 @@ module CO
            description: "Planck's constant over twopi") { self.h/self.twopi }
 
   CO_.def_(:mu0, :mu_0,
-           description: "permeability of vacuum") do
-    Quantity.new(num: 4.0e-7*self.pi,
-                 unit: UN.H/UN.m)
-  end
+           description: "permeability of vacuum") { 1.0 }
   CO_.def_(:epsilon0, :epsilon_0, :ep0, :ep_0,
-           description: "permittivity of vacuum") { 1.0/self.mu0/self.c**2 }
+           description: "permittivity of vacuum") { 1.0 }
 
   CO_.def_(:q,
            description: "elementary charge") do
-    Quantity.new(num: 1.60217657e-19,
-                 unit: UN.C)
+    self.c*Quantity.new(num: 1.60217657e-20,
+                        unit: UN.g/UN.s/UN.gauss)
   end
 
   CO_.def_(:m_e,

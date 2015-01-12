@@ -1,5 +1,5 @@
-require './Unit.rb'
-require './Error.rb'
+require_relative './Unit.rb'
+require_relative './Error.rb'
 
 class Quantity < Numeric
 

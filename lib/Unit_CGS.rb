@@ -1,4 +1,4 @@
-require './Unit.rb'
+require_relative './Unit.rb'
 
 CGS_standards = [:length,:mass,:time,:temperature]
 CGS_standards_name = {:length => :cm,
