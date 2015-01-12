@@ -169,6 +169,20 @@ class Quantity < Numeric
 
 end
 
+module UN_
+  def method_if(arg)
+    if self.method_defined?(arg)
+      self.method(arg)
+    else
+      raise(UnitNameError, "\"#{arg}\" - unit not defined")
+    end
+  end
+
+  def self.included(mod)
+    mod.extend UN_
+  end
+end
+
 module CO_
   def method_if(arg)
     if self.method_defined?(arg)
@@ -181,16 +195,6 @@ module CO_
   def self.included(mod)
     mod.extend CO_
   end
-end
-
-module UN_
-  def method_if(arg)
-    if self.method_defined?(arg)
-      self.method(arg)
-    else
-      raise(UnitNameError, "\"#{arg}\" - unit not defined")
-    end
-  end
 
   def e
     Math::E
@@ -198,10 +202,9 @@ module UN_
   def pi
     Math::PI
   end
+  def twopi
+    Math::PI/2.0
+  end
   alias_method :PI, :pi
   alias_method :Pi, :pi
-
-  def self.included(mod)
-    mod.extend UN_
-  end
 end
