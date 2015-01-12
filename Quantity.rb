@@ -203,7 +203,7 @@ module CO_
     Math::PI
   end
   def twopi
-    Math::PI/2.0
+    Math::PI*2.0
   end
   alias_method :PI, :pi
   alias_method :Pi, :pi

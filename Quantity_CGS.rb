@@ -180,7 +180,7 @@ module CO
     Quantity.new(num: 6.62606957e-34, unit: UN.J*UN.sec)
   end
   def hbar
-    self.h/2/self.pi
+    self.h/self.twopi
   end
 
   def epsilon0
