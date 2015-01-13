@@ -147,6 +147,7 @@ class Quantity < Numeric
   def incompatible_dimensions(op)
     raise(DimensionError, "\"#{op}\" - incompatible dimensions")
   end
+
   def index_must_be_dimensionless(op)
     raise(DimensionError, "\"#{op}\" - index must be dimensionless")
   end
@@ -170,62 +171,71 @@ class Quantity < Numeric
 end
 
 module UN_
+  extend self
 
   def method_if(arg)
-    if self.method_defined?(arg)
+    if self.methods.include?(arg.intern)
       self.method(arg)
     else
       raise(UnitNameError, "\"#{arg}\" - unit not defined")
     end
   end
 
-  @@uns = {}
-  def unit_description
-    @@uns
-  end
-
-  def self.def_(*sym, description: "", &block)
+  def def__(*sym,
+            description: "",
+            descriptions: Hash.new,
+            &block)
     names = []
     sym.each do |s|
       define_method(s, block)
       names.push(s)
     end
-      str = description + " : " + block.call.to_s
-      @@uns[names] = str
+    str = description + " : " + block.call.to_s
+    descriptions[names] = str
   end
 
 end
 
 module CO_
+  extend self
 
   def method_if(arg)
-    if self.method_defined?(arg)
+    if self.methods.include?(arg.intern)
       self.method(arg)
     else
       raise(ConstantNameError, "\"#{arg}\" - constant not defined")
     end
   end
 
-  @@cos = {}
+  @@cos_ = {}
   def constant_description
-    @@cos
+    @@cos_
   end
 
-  def self.def_(*sym, description: "", &block)
+  def def__(*sym,
+            description: "",
+            descriptions: Hash.new,
+            &block)
     names = []
     sym.each do |s|
       define_method(s, block)
       names.push(s)
     end
-      str = description + " : " + block.call.to_s
-      @@cos[names] = str
+    str = description + " : " + block.call.to_s
+    descriptions[names] = str
   end
 
-  def_(:e,
-       description: "Napier's constant") { Math::E }
-  def_(:pi, :PI, :Pi,
-       description: "Pi") { Math::PI }
-  def_(:twopi,
-       description: "2*Pi") { Math::PI*2.0 }
+  def__(:e,
+        description: "Napier's constant",
+        descriptions: @@cos_
+       ) { Math::E }
+  def__(:pi, :PI, :Pi,
+        description: "Pi",
+        descriptions: @@cos_
+       ) { Math::PI }
+  def__(:twopi,
+        description: "2*Pi",
+        descriptions: @@cos_
+       ) { Math::PI*2.0 }
 
 end

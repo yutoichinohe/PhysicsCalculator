@@ -1,6 +1,6 @@
 require 'parslet'
 
-class Util < Parslet::Parser
+class ParserUtil < Parslet::Parser
   rule(:sp) { str(' ').repeat(1) }
   rule(:sp?) { str(' ').repeat(0) }
   rule(:lp) { str('(') >> sp? }
@@ -9,7 +9,7 @@ class Util < Parslet::Parser
   rule(:rb) { str(']') >> sp? }
 end
 
-class Parser < Util
+class Parser < ParserUtil
 
   ################ number ################
   rule(:int) { (str('+') | str('-')).maybe >> match("[0-9]").repeat(1) }

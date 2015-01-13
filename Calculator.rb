@@ -62,7 +62,7 @@ class Calculator
     rescue Parslet::ParseFailed => e
       [false, "\"#{str}\" - invalid form"]
     rescue => e
-      [false, e.class]
+      [false, "#{e.class} - #{e}"]
     ensure
       nil
     end
@@ -96,14 +96,14 @@ class Calculator
 
   def show_const
     str = "\e[1m\e[4mAvailable constants\e[0m\e[1m\n"
-    CO.constant_description.each do |key,val|
+    Kernel.const_get(self.unit_system)::CO.constant_description.each do |key,val|
       str << "%30s | %s\n" % [key.join(" "),val]
     end
     str
   end
   def show_unit
     str = "\e[1m\e[4mAvailable units\e[0m\e[1m\n"
-    UN.unit_description.each do |key,val|
+    Kernel.const_get(self.unit_system)::UN.unit_description.each do |key,val|
       str << "%16s | %s\n" % [key.join(" "),val]
     end
     str
