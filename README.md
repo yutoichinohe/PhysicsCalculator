@@ -73,7 +73,7 @@ Usage
     [CGS]> q^2/hbar/c
     0.007297352621069511 // fine structure constant in CGS
     [CGS]> :q
-    bye
+    Bye
 
 #### From command-line
     $ ./Calculator.rb 1[eV] =? J

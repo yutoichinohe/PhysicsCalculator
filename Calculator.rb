@@ -119,22 +119,29 @@ class Calculator
   ################ repl ################
   def repl
     require 'readline'
+
     Signal.trap(:INT) {
       puts
       print "Bye\n"
       exit(0)
     }
+
     while true
       print("\e[0m")
       str = Readline.readline("[#{self.unit_system}]> ", true).strip
 
       case str
       when ".q", ".e", ":q", ":e", "quit", "exit"
+
         print "Bye\n"
         break
+
       when ".h", ":h", "help"
+
         print self.show_help
+
       when ".us", ":us", "unitsystem"
+
         print("\e[1m")
         us = Readline.readline("unit system [MKSA, CGS]> ", true)
         result = self.set_unit_system(us.upcase)
@@ -145,14 +152,45 @@ class Calculator
           print "\e[1;31m"
           print result[1], "\e[0m\n"
         end
+
       when ".c", ":c", "const"
+
         print self.show_const
+
       when ".u", ":u", "unit"
+
         print self.show_unit
+
       when ".f", ":f", "func"
+
         print self.show_func
+
+      when ".mksa", ":mksa", "mksa"
+
+        result = self.set_unit_system("MKSA")
+        if result[0]
+          print "\e[1;32m"
+          print "unit system set to #{result[1]}\e[0m\n"
+        else
+          print "\e[1;31m"
+          print result[1], "\e[0m\n"
+        end
+
+      when ".cgs", ":cgs", "cgs"
+
+        result = self.set_unit_system("CGS")
+        if result[0]
+          print "\e[1;32m"
+          print "unit system set to #{result[1]}\e[0m\n"
+        else
+          print "\e[1;31m"
+          print result[1], "\e[0m\n"
+        end
+
       when ""
+
       else
+
         result = self.parse_query(str)
         if result[0]
           print "\e[1;32m"
@@ -161,7 +199,9 @@ class Calculator
           print "\e[1;31m"
           print result[1], "\e[0m\n"
         end
+
       end
+
     end
   end
 
