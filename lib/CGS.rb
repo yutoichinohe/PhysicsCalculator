@@ -63,6 +63,9 @@ module CGS
     def_(:km,
          description: "kilometer") { 1e5*self.cm }
 
+    def_(:barn,
+         description: "barn") { 1e-24*(self.cm)**2 }
+
     def_(:au, :AU,
          description: "astronomical unit") { 149597871.0*self.km }
     def_(:pc,
@@ -71,9 +74,6 @@ module CGS
          description: "kiloparsec") { 1e3*self.pc }
     def_(:Mpc,
          description: "megaparsec") { 1e6*self.pc }
-
-    def_(:lyr,
-         description: "light year") { 9460730472580800.0*self.m }
 
     #### mass
     def_(:g,
@@ -137,10 +137,10 @@ module CGS
     def_(:Pa,
          description: "pascal") { self.N/self.m**2 }
     def_(:W,
-         description: "watt") { self.N/self.s }
+         description: "watt") { self.J/self.s }
 
     def_(:eV,
-         description: "electron volt") { 1.60217657e-19*self.J }
+         description: "electron volt") { 1.602176565e-19*self.J }
     def_(:keV,
          description: "kilo electron volt") { 1e3*self.eV }
     def_(:MeV,
@@ -158,7 +158,6 @@ module CGS
 
     def_(:gauss, :Gauss,
          description: "gauss") { self.dyn**Rational(1,2)/self.cm }
-
 
     #### temperature
     def_(:K,
@@ -211,7 +210,7 @@ module CGS
 
     def_(:q,
          description: "elementary charge") do
-      self.c*Quantity.new(num: 1.60217657e-20,
+      self.c*Quantity.new(num: 1.602176565e-20,
                           unit: UN.g/UN.s/UN.gauss)
     end
 
@@ -225,6 +224,11 @@ module CGS
       Quantity.new(num: 1.672621777e-27,
                    unit: UN.kg)
     end
+    def_(:m_n,
+         description: "neutron mass") do
+      Quantity.new(num: 1.674927351e-27,
+                   unit: UN.kg)
+    end
 
     def_(:k_b, :k, :kb,
          description: "Boltzmann constant") do
@@ -232,6 +236,26 @@ module CGS
                    unit: UN.J/UN.K)
     end
 
+    def_(:sigma_s, :s_s,
+         description: "Stefan-Boltzmann constant") do
+      2.0*(self.pi)**5*(self.k)**4/15.0/(self.c)**2/(self.h)**3
+    end
+
+    def_(:r_e,
+         description: "Classical electron radius") do
+      (self.q)**2/self.m_e/(self.c)**2
+    end
+
+    def_(:sigma_t, :s_t,
+         description: "Thomson cross section") do
+      8.0*(self.pi)*(self.r_e)**2/3.0
+    end
+
+  end
+
+  module UN
+    def_(:lyr,
+         description: "light year") { self.year * CGS::CO.c_0 }
   end
 
 end

@@ -65,6 +65,9 @@ module MKSA
     def_(:km,
          description: "kilometer") { 1000*self.m }
 
+    def_(:barn,
+         description: "barn") { 1e-24*(self.cm)**2 }
+
     def_(:au, :AU,
          description: "astronomical unit") { 149597871.0*self.km }
     def_(:pc,
@@ -73,9 +76,6 @@ module MKSA
          description: "kiloparsec") { 1e3*self.pc }
     def_(:Mpc,
          description: "megaparsec") { 1e6*self.pc }
-
-    def_(:lyr,
-         description: "light year") { 9460730472580800.0*self.m }
 
     #### mass
     def_(:kg,
@@ -131,25 +131,12 @@ module MKSA
 
     def_(:Pa,
          description: "pascal") { self.N/self.m**2 }
-    def_(:W,
-         description: "watt") { self.N/self.s }
     def_(:J, :Joule, :joule,
          description: "joule") { self.N*self.m }
+    def_(:W,
+         description: "watt") { self.J/self.s }
     def_(:erg,
          description: "erg") { 1e-7*self.J }
-
-    def_(:eV,
-         description: "electron volt") { 1.60217657e-19*self.J }
-    def_(:keV,
-         description: "kilo electron volt") { 1e3*self.eV }
-    def_(:MeV,
-         description: "mega electron volt") { 1e6*self.eV }
-    def_(:GeV,
-         description: "giga electron volt") { 1e9*self.eV }
-    def_(:TeV,
-         description: "tera electron volt") { 1e12*self.eV }
-    def_(:PeV,
-         description: "peta electron volt") { 1e15*self.eV }
 
     #### EM
     def_(:A,
@@ -224,7 +211,7 @@ module MKSA
 
     def_(:q,
          description: "elementary charge") do
-      Quantity.new(num: 1.60217657e-19,
+      Quantity.new(num: 1.602176565e-19,
                    unit: UN.C)
     end
 
@@ -238,12 +225,51 @@ module MKSA
       Quantity.new(num: 1.672621777e-27,
                    unit: UN.kg)
     end
+    def_(:m_n,
+         description: "neutron mass") do
+      Quantity.new(num: 1.674927351e-27,
+                   unit: UN.kg)
+    end
 
     def_(:k_b, :k, :kb,
          description: "Boltzmann constant") do
       Quantity.new(num: 1.3806488e-23,
                    unit: UN.J/UN.K)
     end
+
+    def_(:sigma_s, :s_s,
+         description: "Stefan-Boltzmann constant") do
+      2.0*(self.pi)**5*(self.k)**4/15.0/(self.c)**2/(self.h)**3
+    end
+
+    def_(:r_e,
+         description: "Classical electron radius") do
+      (self.q)**2/4/self.pi/self.epsilon0/self.m_e/(self.c)**2
+    end
+
+    def_(:sigma_t, :s_t,
+         description: "Thomson cross section") do
+      8.0*(self.pi)*(self.r_e)**2/3.0
+    end
+
+  end
+
+  module UN
+    def_(:lyr,
+         description: "light year") { self.year * MKSA::CO.c_0 }
+
+    def_(:eV,
+         description: "electron volt") { self.V * MKSA::CO.q }
+    def_(:keV,
+         description: "kilo electron volt") { 1e3*self.eV }
+    def_(:MeV,
+         description: "mega electron volt") { 1e6*self.eV }
+    def_(:GeV,
+         description: "giga electron volt") { 1e9*self.eV }
+    def_(:TeV,
+         description: "tera electron volt") { 1e12*self.eV }
+    def_(:PeV,
+         description: "peta electron volt") { 1e15*self.eV }
 
   end
 
