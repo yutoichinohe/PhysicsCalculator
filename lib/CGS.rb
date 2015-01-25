@@ -89,6 +89,9 @@ module CGS
     def_(:Msun, :M_sun,
          description: "solar mass") { 1.9891e30*self.kg }
 
+    def_(:u,
+         description: "unified atomic mass unit") { 1.550538921e-27*self.kg }
+
     #### time
     def_(:s, :sec,
          description: "second") do
