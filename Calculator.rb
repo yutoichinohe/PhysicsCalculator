@@ -46,6 +46,9 @@ class Calculator
       "    - functions are inputted with ()\n" <<
       "        ex.) sin(2.0), sin(1+1), sin(2[m]/1[m])\n" <<
       "        => 0.9092974268256817\n" <<
+      "    - Use = to define a local variable.\n" <<
+      "        ex.) a=20[m]\n" <<
+      "        => a is set to 2.0 m\n"
       ""
     str
   end
@@ -54,7 +57,13 @@ class Calculator
     begin
       @transed = @trans.apply(@psr_q.parse(str))
       self.parse_transed(@transed)
-      [true, (@parsed.to_s << " [" << @parsed_dim.strip << "]").gsub("[]","").strip]
+
+      case @result
+      when :val
+        [true, (@parsed.to_s << " [" << @parsed_dim.strip << "]").gsub("[]","").strip]
+      when :let
+        [true, "%s is set to %s"%[@name,@parsed]]
+      end
     rescue DimensionError => e
       [false, e]
     rescue ConstantNameError, UnitNameError, FunctionNameError => e
@@ -70,15 +79,29 @@ class Calculator
 
   def parse_transed(arg)
     if arg.kind_of?(Hash)
-      lhs = arg[:explhs]
-      rhs = arg[:exprhs]
-      rhs_str = "1[" << rhs.to_s << "]"
-      parsed_rhs = @trans.apply(@psr.parse(rhs_str))
-      @parsed = lhs/parsed_rhs
-      @parsed_dim = rhs.to_s
+      if arg.include?(:query_op)
+        lhs = arg[:querylhs]
+        rhs = arg[:queryrhs]
+        rhs_str = "1[" << rhs.to_s << "]"
+        parsed_rhs = @trans.apply(@psr.parse(rhs_str))
+        @parsed = lhs/parsed_rhs
+        @parsed_dim = rhs.to_s
+        @result = :val
+        @name = ""
+      elsif arg.include?(:let_op)
+        lhs = arg[:letlhs].to_s.strip
+        rhs = arg[:letrhs]
+        Kernel.const_get(self.unit_system)::CO.def_my_constant(lhs){rhs}
+        @parsed = rhs
+        @parsed_dim = ""
+        @result = :let
+        @name = lhs
+      end
     else
       @parsed = arg
       @parsed_dim = ""
+      @result = :val
+      @name = ""
     end
   end
 

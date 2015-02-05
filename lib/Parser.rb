@@ -98,15 +98,31 @@ class Parser_ROOT < Parser
   }
 
   rule(:query) {
-    (expression.as(:explhs) >>
-     query_operator.as(:query_op) >>
-     ((query_rhs).as(:exprhs) | lb >> query_rhs.as(:exprhs) >> rb)) |
-      expression.as(:exp)
+    expression.as(:querylhs) >>
+      query_operator.as(:query_op) >>
+      ((query_rhs).as(:queryrhs) | lb >> query_rhs.as(:queryrhs) >> rb)
+  }
+
+  ################ let ################
+  rule(:let_operator) { str('=') >> sp? }
+
+  rule(:let_lhs) {
+    match("[a-zA-Z]") >> match("[a-zA-Z0-9_]").repeat(0) >> sp?
+  }
+
+  rule(:let_rhs) {
+    (match("[a-zA-Z0-9]") | match("[-+*^/\s\[\]\(\)]")).repeat(0) >> sp?
+  }
+
+  rule(:let) {
+    let_lhs.as(:letlhs) >>
+      let_operator.as(:let_op) >>
+      expression.as(:letrhs)
   }
 
   ################ root ################
   rule(:ROOT) {
-    query
+    query | expression | let
   }
   root(:ROOT)
 end

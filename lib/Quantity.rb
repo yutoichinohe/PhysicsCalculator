@@ -238,4 +238,13 @@ module CO_
         descriptions: @@cos_
        ) { Math::PI*2.0 }
 
+  def def_my_constant(sym, &block)
+    if constant_description.keys.flatten.include?(sym.intern)
+      raise(ConstantNameError, "\"#{sym}\" - already defined as a constant")
+    else
+      def__(sym.intern, &block)
+    end
+  end
+
 end
+

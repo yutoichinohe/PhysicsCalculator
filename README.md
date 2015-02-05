@@ -28,8 +28,11 @@ Physics Calculator is a simple command-line scientific calculator which is usefu
     unit system [MKSA, CGS]> cgs
     [CGS]> q
     4.80320452070309e-10 cm3/2 g1/2 s-1 // elementary charge in CGS
-
-### Contact
+#### Use of local variables
+     [MKSA]> a=2[km]
+     a is set to 2000.0 m
+     [MKSA]> a*5
+     10000.0 m
 
 - Yuto Ichinohe
 - ISAS/JAXA, University of Tokyo
@@ -72,7 +75,16 @@ Usage
     unit system [MKSA, CGS]> cgs
     [CGS]> q^2/hbar/c
     0.007297352621069511 // fine structure constant in CGS
-    [CGS]> :q
+    [CGS]> :mksa
+    [MKSA]> a = 2*G*M_sun/c**2 // set "a" as the Schwarzschild radius of the Sun
+    a is set to 2954.07146641595 m
+    [MKSA]> a =? km
+    2.95407146641595 [km]
+    [MKSA]> a / 3000[m]
+    0.9846904888053166
+    [MKSA]> c0=2 // you cannot overwrite previously defined constants
+    "c0" - already defined as a constant
+    [MKSA]> :q
     Bye
 
 #### From command-line
@@ -102,3 +114,5 @@ Usage
     `ex.) km => 1000.0 m`
 - Functions are inputted with ().  
     `ex.) sin(2.0), sin(1+1), sin(2[m]/1[m])  => 0.9092974268256817`
+- Use = to define a local variable.  
+    `ex.) a=20[m] => a is set to 2.0 m
