@@ -115,4 +115,4 @@ Usage
 - Functions are inputted with ().  
     `ex.) sin(2.0), sin(1+1), sin(2[m]/1[m])  => 0.9092974268256817`
 - Use = to define a local variable.  
-    `ex.) a=20[m] => a is set to 2.0 m
+    `ex.) a=20[m] => a is set to 2.0 m`
