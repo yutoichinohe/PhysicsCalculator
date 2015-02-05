@@ -5,7 +5,7 @@ require_relative './lib/Transform.rb'
 
 class Calculator
   def initialize
-    @psr_q = Parser_Query.new
+    @psr_q = Parser_ROOT.new
     @psr = Parser.new
     @trans = Transform.new
   end

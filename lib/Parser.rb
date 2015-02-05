@@ -89,7 +89,7 @@ class Parser < ParserUtil
   root(:expression)
 end
 
-class Parser_Query < Parser
+class Parser_ROOT < Parser
   ################ query ################
   rule(:query_operator) { str('=?') >> sp? }
 
@@ -105,5 +105,8 @@ class Parser_Query < Parser
   }
 
   ################ root ################
-  root(:query)
+  rule(:ROOT) {
+    query
+  }
+  root(:ROOT)
 end
