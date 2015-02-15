@@ -33,6 +33,11 @@ Physics Calculator is a simple command-line scientific calculator which is usefu
      a is set to 2000.0 m
      [MKSA]> a*5
      10000.0 m
+#### Load forms from a file
+     [MKSA]> :l forms.txt // a=2[km]
+     a is set to 2000.0 m
+     [MKSA]> a*2
+     4000.0 m
 
 - Yuto Ichinohe
 - ISAS/JAXA, University of Tokyo
@@ -94,6 +99,7 @@ Usage
 #### Commands
     .q, .e, :q, :e, quit, exit, Ctrl-c -- quit
     .h, :h, help -- show help
+    .l, :l, load -- load forms from a file
     .us, :us, unitsystem -- change unit system
     .c, :c, const -- print available constants
     .u, :u, unit -- print available units

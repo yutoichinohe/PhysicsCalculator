@@ -18,6 +18,8 @@ class Calculator
       "        exit the program\n" <<
       "    .h, :h, help\n" <<
       "        show this help\n" <<
+      "    .l, :l, load\n" <<
+      "        load forms from a file\n" <<
       "    .us, :us, unitsystem\n" <<
       "        change unit system\n" <<
       "    .c, :c, const\n" <<
@@ -49,7 +51,7 @@ class Calculator
       "    - Use = to define a local variable.\n" <<
       "        ex.) a=20[m]\n" <<
       "        => a is set to 2.0 m\n"
-      ""
+    ""
     str
   end
 
@@ -210,8 +212,29 @@ class Calculator
           print result[1], "\e[0m\n"
         end
 
-      when ""
+      when /(\.l|:l|load).*/
+        filename = str.strip.split[1]
+        until filename
+          print("\e[1m")
+          filename = Readline.readline("load> ", true).strip
+        end
+        if File.exist?(filename)
+          File.open(filename).each do |line|
+            result = self.parse_query(line.strip)
+            if result[0]
+              print "\e[1;32m"
+              print result[1], "\e[0m\n"
+            else
+              print "\e[1;31m"
+              print result[1], "\e[0m\n"
+            end
+          end
+        else
+          print "\e[1;31m"
+          print "File \"#{filename}\" not found\e[0m\n"
+        end
 
+      when ""
       else
 
         result = self.parse_query(str)
