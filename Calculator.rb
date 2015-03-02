@@ -3,6 +3,42 @@
 require_relative './lib/Parser.rb'
 require_relative './lib/Transform.rb'
 
+$colorless = false
+
+def string_with_color(str,col)
+  if $colorless
+    str
+  else
+    s = ""
+    case col
+    when :white
+      s << "\e[0m"
+      s << str
+      s << "\e[0m"
+    when :bwhite
+      s << "\e[1m"
+      s << str
+      s << "\e[0m"
+    when :red
+      s << "\e[1;31m"
+      s << str
+      s << "\e[0m"
+    when :green
+      s << "\e[1;32m"
+      s << str
+      s << "\e[0m"
+    else
+      s << str
+    end
+    s
+  end
+end
+
+def print_with_color(str,col)
+  print string_with_color(str.to_s, col)
+  print "\n"
+end
+
 class Calculator
   def initialize
     @psr_q = Parser_ROOT.new
@@ -115,6 +151,7 @@ class Calculator
       [false, e]
     end
   end
+
   def unit_system
     @trans.unit_system
   end
@@ -126,6 +163,7 @@ class Calculator
     end
     str
   end
+
   def show_unit
     str = "\e[1m\e[4mAvailable units\e[0m\e[1m\n"
     Kernel.const_get(self.unit_system)::UN.unit_description.each do |key,val|
@@ -133,6 +171,7 @@ class Calculator
     end
     str
   end
+
   def show_func
     str = "\e[1m\e[4mAvailable functions\e[0m\e[1m\n"
     Function.function_description.each do |key,val|
@@ -148,12 +187,14 @@ class Calculator
     Signal.trap(:INT) {
       puts
       print "Bye\n"
-      exit(0)
+      exit 0
     }
 
     while true
-      print("\e[0m")
-      str = Readline.readline("[#{self.unit_system}]> ", true).strip
+      str = Readline.readline(string_with_color("[#{self.unit_system}]> ", :white), true)
+      if str
+        str = str.strip
+      end
 
       case str
       when ".q", ".e", ":q", ":e", "quit", "exit"
@@ -167,15 +208,12 @@ class Calculator
 
       when ".us", ":us", "unitsystem"
 
-        print("\e[1m")
-        us = Readline.readline("unit system [MKSA, CGS]> ", true)
+        us = Readline.readline(string_with_color("unit system [MKSA, CGS]> ", :bwhite), true)
         result = self.set_unit_system(us.upcase)
         if result[0]
-          print "\e[1;32m"
-          print "unit system set to #{result[1]}\e[0m\n"
+          print_with_color("unit system set to #{result[1]}", :green)
         else
-          print "\e[1;31m"
-          print result[1], "\e[0m\n"
+          print_with_color(result[1], :red)
         end
 
       when ".c", ":c", "const"
@@ -194,57 +232,39 @@ class Calculator
 
         result = self.set_unit_system("MKSA")
         if result[0]
-          print "\e[1;32m"
-          print "unit system set to #{result[1]}\e[0m\n"
+          print_with_color("unit system set to #{result[1]}", :green)
         else
-          print "\e[1;31m"
-          print result[1], "\e[0m\n"
+          print_with_color(result[1], :red)
         end
 
       when ".cgs", ":cgs", "cgs"
 
         result = self.set_unit_system("CGS")
         if result[0]
-          print "\e[1;32m"
-          print "unit system set to #{result[1]}\e[0m\n"
+          print_with_color("unit system set to #{result[1]}", :green)
         else
-          print "\e[1;31m"
-          print result[1], "\e[0m\n"
+          print_with_color(result[1], :red)
         end
 
       when /(\.l|:l|load).*/
         filename = str.strip.split[1]
         until filename
-          print("\e[1m")
-          filename = Readline.readline("load> ", true).strip
+          filename = Readline.readline(string_with_color("load> ", :bwhite), true).strip
         end
         if File.exist?(filename)
           File.open(filename).each do |line|
             result = self.parse_query(line.strip)
-            if result[0]
-              print "\e[1;32m"
-              print result[1], "\e[0m\n"
-            else
-              print "\e[1;31m"
-              print result[1], "\e[0m\n"
-            end
+            print_with_color(result[1], result[0] ? :green : :red)
           end
         else
-          print "\e[1;31m"
-          print "File \"#{filename}\" not found\e[0m\n"
+          print_with_color("File \"#{filename}\" not found", :red)
         end
 
       when ""
       else
 
         result = self.parse_query(str)
-        if result[0]
-          print "\e[1;32m"
-          print result[1], "\e[0m\n"
-        else
-          print "\e[1;31m"
-          print result[1], "\e[0m\n"
-        end
+        print_with_color(result[1], result[0] ? :green : :red)
 
       end
 
@@ -273,6 +293,7 @@ if $0 == __FILE__
   end
 
   if option.key? :x
+    $colorless = true
     if ARGV.size == 0
       result = [nil,nil,nil]
       if f = option[:x]
@@ -280,13 +301,7 @@ if $0 == __FILE__
           result = calc.parse_query(line.strip)
         end
       end
-      if result[0]
-        print "\e[1;32m"
-        print result[1], "\e[0m\n"
-      else
-        print "\e[1;31m"
-        print result[1], "\e[0m\n"
-      end
+      print_with_color(result[1], result[0] ? :green : :red)
     else
       if f = option[:x]
         File.open(f).each do |line|
@@ -295,47 +310,28 @@ if $0 == __FILE__
       end
       arg = ARGV.join(" ")
       result = calc.parse_query(arg)
-      if result[0]
-        print "\e[1;32m"
-        print result[1], "\e[0m\n"
-      else
-        print "\e[1;31m"
-        print result[1], "\e[0m\n"
-      end
+      print_with_color(result[1], result[0] ? :green : :red)
     end
   elsif ARGV.size != 0
+    $colorless = true
     arg = ARGV.join(" ")
     result = calc.parse_query(arg)
-    if result[0]
-      print "\e[1;32m"
-      print result[1], "\e[0m\n"
-    else
-      print "\e[1;31m"
-      print result[1], "\e[0m\n"
-    end
+    print_with_color(result[1], result[0] ? :green : :red)
   else
     require 'readline'
     if option.key? :l
       str = option[:l]
       filename = str ? str.strip : nil
       until filename
-        print("\e[1m")
-        filename = Readline.readline("load> ", true).strip
+        filename = Readline.readline(string_with_color("load> ", :bwhite), true).strip
       end
       if File.exist?(filename)
         File.open(filename).each do |line|
           result = calc.parse_query(line.strip)
-          if result[0]
-            print "\e[1;32m"
-            print result[1], "\e[0m\n"
-          else
-            print "\e[1;31m"
-            print result[1], "\e[0m\n"
-          end
+          print_with_color(result[1], result[0] ? :green : :red)
         end
       else
-        print "\e[1;31m"
-        print "File \"#{filename}\" not found\e[0m\n"
+        print_with_color("File \"#{filename}\" not found", :red)
       end
     end
     calc.repl
