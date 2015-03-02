@@ -48,7 +48,7 @@ class Calculator
       "    - functions are inputted with ()\n" <<
       "        ex.) sin(2.0), sin(1+1), sin(2[m]/1[m])\n" <<
       "        => 0.9092974268256817\n" <<
-      "    - Use = to define a local variable.\n" <<
+      "    - use = to define a local variable\n" <<
       "        ex.) a=20[m]\n" <<
       "        => a is set to 2.0 m\n"
     ""
@@ -254,8 +254,56 @@ class Calculator
 end
 
 if $0 == __FILE__
+  require 'optparse'
+  option={}
+  OptionParser.new do |opt|
+    opt.on('-l [file]',
+           'start command with loading a file') {|v| option[:l] = v}
+    opt.on('-x [file]',
+           'start command with loading a file but only returns the last result') {|v| option[:x] = v}
+    opt.on('-c',
+           'start command with cgs unit system') {|v| option[:c] = v}
+    opt.parse!(ARGV)
+  end
+
   calc = Calculator.new
-  if ARGV.size != 0
+
+  if option.key? :c
+    calc.set_unit_system("CGS")
+  end
+
+  if option.key? :x
+    if ARGV.size == 0
+      result = [nil,nil,nil]
+      if f = option[:x]
+        File.open(f).each do |line|
+          result = calc.parse_query(line.strip)
+        end
+      end
+      if result[0]
+        print "\e[1;32m"
+        print result[1], "\e[0m\n"
+      else
+        print "\e[1;31m"
+        print result[1], "\e[0m\n"
+      end
+    else
+      if f = option[:x]
+        File.open(f).each do |line|
+          result = calc.parse_query(line.strip)
+        end
+      end
+      arg = ARGV.join(" ")
+      result = calc.parse_query(arg)
+      if result[0]
+        print "\e[1;32m"
+        print result[1], "\e[0m\n"
+      else
+        print "\e[1;31m"
+        print result[1], "\e[0m\n"
+      end
+    end
+  elsif ARGV.size != 0
     arg = ARGV.join(" ")
     result = calc.parse_query(arg)
     if result[0]
@@ -266,6 +314,31 @@ if $0 == __FILE__
       print result[1], "\e[0m\n"
     end
   else
+    require 'readline'
+    if option.key? :l
+      str = option[:l]
+      filename = str ? str.strip : nil
+      until filename
+        print("\e[1m")
+        filename = Readline.readline("load> ", true).strip
+      end
+      if File.exist?(filename)
+        File.open(filename).each do |line|
+          result = calc.parse_query(line.strip)
+          if result[0]
+            print "\e[1;32m"
+            print result[1], "\e[0m\n"
+          else
+            print "\e[1;31m"
+            print result[1], "\e[0m\n"
+          end
+        end
+      else
+        print "\e[1;31m"
+        print "File \"#{filename}\" not found\e[0m\n"
+      end
+    end
     calc.repl
   end
+
 end
