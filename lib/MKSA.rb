@@ -166,6 +166,9 @@ module MKSA
       Quantity.new(num: 1,
                    unit: Unit_MKSA.new(const: 1, temperature: 1))
     end
+
+    def_(:Jy,
+         description: "jansky") { 1e-26*self.W/self.m**2/self.Hz }
   end
 
   module CO
