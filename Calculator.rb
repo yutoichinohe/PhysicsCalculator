@@ -191,7 +191,8 @@ class Calculator
     }
 
     while true
-      str = Readline.readline(string_with_color("[#{self.unit_system}]> ", :white), true)
+#      str = Readline.readline(string_with_color("[#{self.unit_system}]> ", :white), true)
+      str = Readline.readline("[#{self.unit_system}]> ", true)
       if str
         str = str.strip
       end
